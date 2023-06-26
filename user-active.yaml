@@ -1,0 +1,54 @@
+keycloak:
+  auth-server-url: http://localhost:18080/auth/
+  realm: pet-project-realm
+  credentials:
+    secret: 5394d954-be7f-4b7a-9eb2-df51b1cca210
+  bearer-only: 'true'
+  ssl-required: external
+  resource: pet-project-client
+  use-resource-role-mappings: 'true'
+spring:
+  mail:
+    username: e4dafac341bbfc
+    port: '2525'
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: sandbox.smtp.mailtrap.io
+    password: bd88954c0017df
+  datasource:
+    driverClassName: org.postgresql.Driver
+    password: postgres
+    username: postgres
+    url: jdbc:postgresql://localhost:5434/pet-project
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: POSTGRESQL
+    show-sql: 'true'
+  sql:
+    init:
+      platform: postgres
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: 'true'
+  application:
+    name: user
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: '10'
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${random.value}}}
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    enabled: 'true'
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka
+      registerWithEureka: 'true'
+    registryFetchIntervalSeconds: '5'
+server:
+  port: '8083'
